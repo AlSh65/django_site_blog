@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% block title %} My blog {% endblock %}
+{% block content %}
+<h1>My blog</h1>
+
+{% for post in posts %}
+<h2>
+    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+</h2>
+
+<p class="tags">Tags: {{ post.tags.all|join:"," }}</p>
+<p class="date">Published {{ post.publish }} by {{ post.author }}</p>
+{{ post.body|truncatewords:40|linebreaks }}
+<p>
+    <a href="{% url 'blog:post_share' post.id %}">Share this post</a>
+</p>
+{% endfor %}
+{% include 'blog/pagination.html' with page=page_obj %}
+{% endblock %}
